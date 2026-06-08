@@ -3,8 +3,8 @@ import '../../core/network/dio_helper.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/constants/api_constants.dart';
 
-class SilverDetailsScreen extends StatelessWidget {
-  const SilverDetailsScreen({super.key});
+class GoldDetailsScreen extends StatelessWidget {
+  const GoldDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,20 +12,19 @@ class SilverDetailsScreen extends StatelessWidget {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text(
-          'Silver Market Data',
+          'Gold Market Data',
           style: TextStyle(color: AppColors.textLight),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        iconTheme: IconThemeData(color: Colors.grey.shade400),
+        iconTheme: const IconThemeData(color: Colors.amberAccent),
       ),
       body: FutureBuilder(
-        // FIXED: Using the new dynamic function and passing 'silver'
-        future: DioHelper.getMetalData('silver'),
+        future: DioHelper.getMetalData('gold'), // Asking API for gold
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(color: Colors.grey.shade400),
+            return const Center(
+              child: CircularProgressIndicator(color: Colors.amberAccent),
             );
           }
 
@@ -48,7 +47,7 @@ class SilverDetailsScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Live Silver Metrics',
+                  'Live Gold Metrics',
                   style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
@@ -82,14 +81,16 @@ class SilverDetailsScreen extends StatelessWidget {
     );
   }
 
-  // The updated premium card design for the silver screen
   Widget _buildMetricCard(String unit, String price, String change) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: const Color(0xFF1E1E1E),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.withOpacity(0.2), width: 1),
+        border: Border.all(
+          color: Colors.amberAccent.withOpacity(0.2),
+          width: 1,
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -110,7 +111,7 @@ class SilverDetailsScreen extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Colors.amberAccent,
                 ),
               ),
               Text(

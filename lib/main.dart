@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'core/network/dio_helper.dart';
-import 'core/routes/app_routes.dart';
+import 'core/routes/app_router.dart';
+import 'core/routes/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,11 +14,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Goldy App',
-      initialRoute: AppRoutes.login,
-      routes: AppRoutes.routes,
+      initialRoute: Routes.login,
+      onGenerateRoute: AppRouter.generateRoute, // Using your new router here!
     );
   }
 }

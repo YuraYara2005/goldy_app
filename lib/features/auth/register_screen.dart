@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/constants/api_constants.dart';
-import '../../core/routes/app_routes.dart';
+import '../../core/constants/app_strings.dart';
+import '../../core/routes/routes.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
@@ -23,7 +24,7 @@ class RegisterScreen extends StatelessWidget {
             children: [
               const SizedBox(height: 20),
               const Text(
-                AppConstants.registerHeader,
+                AppStrings.registerHeader, // Updated to use AppStrings
                 style: TextStyle(
                   color: AppColors.textLight,
                   fontSize: 28,
@@ -57,9 +58,10 @@ class RegisterScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
+                  // Updated to use the Routes class
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    AppRoutes.home,
+                    Routes.home,
                     (route) => false,
                   );
                 },

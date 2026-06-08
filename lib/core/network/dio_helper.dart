@@ -9,44 +9,54 @@ class DioHelper {
       BaseOptions(
         baseUrl: AppConstants.baseUrl,
         receiveDataWhenStatusError: true,
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 10),
       ),
     );
 
-    // Mock Interceptor: Simulates server response automatically without an API key
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          if (options.path.contains(AppConstants.silverEndpoint)) {
-            // Simulate network latency
-            await Future.delayed(const Duration(milliseconds: 800));
+          await Future.delayed(
+            const Duration(milliseconds: 800),
+          ); // Simulate network
 
-            // Return fake successful response data matching a real commodities API structure
-            final mockResponse = Response(
-              requestOptions: options,
-              statusCode: 200,
-              data: {
-                "status": "success",
-                "base": "USD",
-                "metal": "silver",
-                "rates": {
-                  "per_ounce": 29.45,
-                  "per_gram": 0.95,
-                  "per_kilogram": 946.83,
+          // Check if we are asking for gold or silver and return the right data
+          if (options.path.contains('gold')) {
+            return handler.resolve(
+              Response(
+                requestOptions: options,
+                statusCode: 200,
+                data: {
+                  "rates": {
+                    "per_ounce": 2341.50,
+                    "per_gram": 75.28,
+                    "per_kilogram": 75281.00,
+                  },
+                  "changes": {"percentage": "+0.85%"},
                 },
-                "changes": {"day": 1.24, "percentage": "+4.39%"},
-              },
+              ),
             );
-            return handler.resolve(mockResponse);
+          } else {
+            return handler.resolve(
+              Response(
+                requestOptions: options,
+                statusCode: 200,
+                data: {
+                  "rates": {
+                    "per_ounce": 29.45,
+                    "per_gram": 0.95,
+                    "per_kilogram": 946.83,
+                  },
+                  "changes": {"percentage": "+4.39%"},
+                },
+              ),
+            );
           }
-          return handler.next(options);
         },
       ),
     );
   }
 
-  static Future<Response> getSilverData() async {
-    return await dio.get(AppConstants.silverEndpoint);
+  static Future<Response> getMetalData(String metal) async {
+    return await dio.get('latest/$metal');
   }
 }
